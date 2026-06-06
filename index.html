@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spatial Transcriptomics Explorer</title>
+
+<style>
+:root{
+    --bg1:#0f172a;
+    --bg2:#1e293b;
+    --accent:#38bdf8;
+    --accent2:#8b5cf6;
+    --glass:rgba(255,255,255,0.08);
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:system-ui,-apple-system,sans-serif;
+    min-height:100vh;
+    color:white;
+    background:linear-gradient(135deg,var(--bg1),var(--bg2));
+    overflow-x:hidden;
+    position:relative;
+}
+
+/* background glow */
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background:
+        radial-gradient(circle at 20% 20%, rgba(56,189,248,.15), transparent 30%),
+        radial-gradient(circle at 80% 30%, rgba(139,92,246,.15), transparent 30%),
+        radial-gradient(circle at 50% 80%, rgba(34,197,94,.12), transparent 30%);
+    animation: drift 12s ease-in-out infinite alternate;
+    z-index:-3;
+}
+
+@keyframes drift{
+    from{transform:scale(1);}
+    to{transform:scale(1.15);}
+}
+
+/* particles */
+.particle{
+    position:fixed;
+    border-radius:50%;
+    background:rgba(255,255,255,0.12);
+    pointer-events:none;
+    z-index:-2;
+    animation: float linear infinite;
+}
+
+@keyframes float{
+    from{transform:translateY(110vh);}
+    to{transform:translateY(-100px);}
+}
+
+.container{
+    width:min(1100px,92%);
+    margin:auto;
+    position:relative;
+    z-index:1;
+}
+
+/* HERO */
+.hero{
+    text-align:center;
+    padding:80px 20px 40px;
+}
+
+.hero h1{
+    font-size:clamp(2.2rem,5vw,4rem);
+    margin-bottom:10px;
+}
+
+.subtitle{
+    max-width:750px;
+    margin:auto;
+    opacity:.9;
+    line-height:1.7;
+}
+
+.mission{
+    margin-top:25px;
+    display:inline-block;
+    padding:10px 18px;
+    border-radius:999px;
+    background:rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.15);
+}
+
+/* SCAN AREA */
+.brain-scan{
+    width:280px;
+    height:280px;
+    margin:35px auto;
+    position:relative;
+    border-radius:20px;
+    overflow:hidden;
+    background:#000;
+    box-shadow:0 0 40px rgba(56,189,248,0.25);
+}
+
+/* MRI IMAGE FIX */
+.brain-img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+    position:relative;
+    z-index:1;
+}
+
+/* SCAN LINE FIXED (TOP → BOTTOM CLEAN) */
+.scan-line{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:3px;
+    background:rgba(34,197,94,1);
+    box-shadow:0 0 20px rgba(34,197,94,0.9);
+    z-index:2;
+    pointer-events:none;
+    animation:scan 2s linear infinite;
+}
+
+@keyframes scan{
+    0%{
+        transform:translateY(0);
+        opacity:0;
+    }
+    10%{
+        opacity:1;
+    }
+    100%{
+        transform:translateY(280px);
+        opacity:0;
+    }
+}
+
+/* CARDS (UNCHANGED CONTENT STYLE FIX ONLY) */
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+    gap:28px;
+    padding:50px 0 80px;
+}
+
+.card{
+    background:var(--glass);
+    backdrop-filter:blur(16px);
+    border:1px solid rgba(255,255,255,.15);
+    border-radius:24px;
+    padding:28px;
+    transition:.35s ease;
+}
+
+.card:hover{
+    transform:translateY(-8px);
+    box-shadow:0 20px 50px rgba(0,0,0,.25);
+}
+
+.icon{
+    font-size:2.5rem;
+    margin-bottom:12px;
+}
+
+.card h2{
+    margin-bottom:12px;
+}
+
+.card p{
+    line-height:1.7;
+    opacity:.9;
+}
+
+/* BUTTON */
+.btn{
+    display:inline-block;
+    margin-top:20px;
+    text-decoration:none;
+    color:white;
+    font-weight:700;
+    padding:14px 22px;
+    border-radius:12px;
+    background:linear-gradient(135deg,var(--accent),var(--accent2));
+    transition:.3s ease;
+}
+
+.btn:hover{
+    transform:scale(1.05);
+}
+
+/* FEATURES */
+.features{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:18px;
+    margin-bottom:70px;
+}
+
+.feature{
+    text-align:center;
+    padding:20px;
+    background:rgba(255,255,255,.05);
+    border-radius:16px;
+}
+
+/* FOOTER */
+footer{
+    text-align:center;
+    padding:30px;
+    opacity:.7;
+    border-top:1px solid rgba(255,255,255,.08);
+}
+</style>
+</head>
+
+<body>
+
+<script>
+for(let i=0;i<25;i++){
+    const p=document.createElement("div");
+    p.className="particle";
+    const size=Math.random()*8+4;
+    p.style.width=size+"px";
+    p.style.height=size+"px";
+    p.style.left=Math.random()*100+"vw";
+    p.style.animationDuration=(10+Math.random()*12)+"s";
+    document.body.appendChild(p);
+}
+</script>
+
+<div class="container">
+
+<section class="hero">
+    <h1>Spatial Transcriptomics Explorer</h1>
+    <p class="subtitle">
+        Explore how scientists use coding, data, and biology to understand the brain. Launch an interactive notebook and investigate real biological data directly in Google Colab.
+    </p>
+
+    <div class="mission">🔬 Mission: Become a Bioinformatics Explorer</div>
+</section>
+
+<!-- MRI SCAN -->
+<div class="brain-scan">
+        <img class="brain-img" src="OIP.webp" alt="Brain MRI Img" />
+    <div class="scan-line"></div>
+</div>
+
+<!-- CARDS (UNCHANGED) -->
+<section class="cards">
+
+    <div class="card">
+        <div class="icon">
+            <img src="https://cdn-icons-png.flaticon.com/512/3003/3003984.png" width="42">
+        </div>
+        <h2>Transcriptomics Guide</h2>
+        <p>Learn the basics of computational biology and discover how researchers analyze gene expression across thousands of cells.</p>
+        <a class="btn" target="_blank"
+        href="https://colab.research.google.com/github/Cat-logo-in-github/Spatial_Transcripomics_of_a_Mouse_Brain/blob/main/An_Introductory_Guide_to_Computation_for_Transcriptomics.ipynb">
+        Launch Notebook
+        </a>
+    </div>
+
+    <div class="card">
+        <div class="icon">
+            <img src="https://cdn-icons-png.flaticon.com/512/1055/1055687.png" width="42">
+        </div>
+        <h2>Classroom Playground</h2>
+        <p>Experiment with code, explore biological data, and try hands-on activities. If this is your first experience with biological datasets, Enjoy!!!</p>
+        <a class="btn" target="_blank"
+        href="https://colab.research.google.com/github/Cat-logo-in-github/Spatial_Transcripomics_of_a_Mouse_Brain/blob/main/Classroom_Playground.ipynb">
+        Open in Colab
+        </a>
+    </div>
+
+    <div class="card">
+        <div class="icon">
+            <img src="https://cdn-icons-png.flaticon.com/512/1828/1828911.png" width="42">
+        </div>
+        <h2>Offline Version</h2>
+        <p>Are too many people on Colab and It's not running now? Is it slow or offline? Open This File to look at images.</p>
+        <a class="btn" target="_blank" href="Classroom_Playground_Loaded.html">
+        Open Local Version
+        </a>
+    </div>
+
+</section>
+
+<section class="features">
+    <div class="feature">🧬 Biology</div>
+    <div class="feature">💻 Coding</div>
+    <div class="feature">📊 Data Science</div>
+</section>
+
+<footer>
+    Made with curiosity, biology, and code ✨
+</footer>
+
+</div>
+
+</body>
+</html>
