@@ -221,6 +221,59 @@ footer{
     opacity:.7;
     border-top:1px solid rgba(255,255,255,.08);
 }
+
+/* INSTRUCTIONS */
+.instructions-section{
+    padding:10px 0 20px;
+}
+
+.instructions-card{
+    max-width:800px;
+    margin:auto;
+    text-align:center;
+    padding:30px;
+    border-radius:24px;
+    background:rgba(250,204,21,0.12);
+    border:1px solid rgba(250,204,21,0.35);
+    backdrop-filter:blur(16px);
+}
+
+.instructions-card h2{
+    color:#facc15;
+    margin-bottom:12px;
+}
+
+.instructions-card p{
+    line-height:1.7;
+    opacity:.95;
+    margin-bottom:12px;
+}
+
+.acknowledge-box{
+    margin-top:20px;
+}
+
+.acknowledge-box label{
+    cursor:pointer;
+    font-weight:600;
+}
+
+.acknowledge-box input{
+    margin-right:8px;
+    transform:scale(1.2);
+}
+
+.disabled-btn{
+    opacity:.45;
+    pointer-events:none;
+    cursor:not-allowed;
+    filter:grayscale(.6);
+}
+
+.acknowledge-box input:disabled{
+    opacity:.5;
+    cursor:not-allowed;
+}
 </style>
 </head>
 
@@ -256,6 +309,43 @@ for(let i=0;i<25;i++){
     <div class="scan-line"></div>
 </div>
 
+<!-- BEFORE YOU BEGIN -->
+<section class="instructions-section">
+    <div class="instructions-card">
+
+        <h2>📋 Before You Begin</h2>
+
+        <p>
+            Before opening any of the notebooks, please read the activity
+            instructions carefully. The guide explains how to use the notebooks,
+            expectations for classroom participation, and important information
+            that will help you get the most out of the experience.
+        </p>
+
+        <p>
+            <strong>
+                Please read these instructions first before starting the
+                Spatial Transcriptomics activities.
+            </strong>
+        </p>
+
+        <a class="btn"
+           id="instructionsBtn"
+           target="_blank"
+           href="https://docs.google.com/document/d/1eZCFBDvg3CcPTHo3eW5GCbEOZsvrXKKKLMumG8CLkgA/edit?usp=sharing">
+            Read Instructions
+        </a>
+
+        <div class="acknowledge-box">
+            <label>
+                <input type="checkbox" id="instructionsCheck" disabled>
+                I have read the instructions and am ready to begin.
+            </label>
+        </div>
+
+    </div>
+</section>
+    
 <!-- CARDS (UNCHANGED) -->
 <section class="cards">
 
@@ -265,7 +355,7 @@ for(let i=0;i<25;i++){
         </div>
         <h2>Transcriptomics Guide</h2>
         <p>Learn the basics of computational biology and discover how researchers analyze gene expression across thousands of cells.</p>
-        <a class="btn" target="_blank"
+        <a class="btn notebook-btn disabled-btn" target="_blank"
         href="https://colab.research.google.com/github/Cat-logo-in-github/Spatial_Transcripomics_of_a_Mouse_Brain/blob/main/An_Introductory_Guide_to_Computation_for_Transcriptomics.ipynb">
         Launch Notebook
         </a>
@@ -277,8 +367,7 @@ for(let i=0;i<25;i++){
         </div>
         <h2>Classroom Playground</h2>
         <p>Experiment with code, explore biological data, and try hands-on activities. If this is your first experience with biological datasets, Enjoy!!!</p>
-        <a class="btn" target="_blank"
-        href="https://colab.research.google.com/github/Cat-logo-in-github/Spatial_Transcripomics_of_a_Mouse_Brain/blob/main/Classroom_Playground.ipynb">
+        <a class="btn notebook-btn disabled-btn" target="_blank" href="https://colab.research.google.com/github/Cat-logo-in-github/Spatial_Transcripomics_of_a_Mouse_Brain/blob/main/Classroom_Playground.ipynb">
         Open in Colab
         </a>
     </div>
@@ -289,7 +378,7 @@ for(let i=0;i<25;i++){
         </div>
         <h2>Offline Version</h2>
         <p>Are too many people on Colab and It's not running now? Is it slow or offline? Open This File to look at images.</p>
-        <a class="btn" target="_blank" href="Classroom_Playground_Loaded.html">
+        <a class="btn notebook-btn disabled-btn" target="_blank" href="Classroom_Playground_Loaded.html">
         Open Local Version
         </a>
     </div>
@@ -308,5 +397,35 @@ for(let i=0;i<25;i++){
 
 </div>
 
+<script>
+const instructionsBtn = document.getElementById("instructionsBtn");
+const checkbox = document.getElementById("instructionsCheck");
+const notebookButtons = document.querySelectorAll(".notebook-btn");
+
+instructionsBtn.addEventListener("click", function () {
+
+    checkbox.disabled = true;
+
+    setTimeout(function(){
+        checkbox.disabled = false;
+        checkbox.focus();
+    }, 5000);
+
+});
+
+checkbox.addEventListener("change", function(){
+
+    notebookButtons.forEach(function(btn){
+
+        if(checkbox.checked){
+            btn.classList.remove("disabled-btn");
+        } else {
+            btn.classList.add("disabled-btn");
+        }
+
+    });
+
+});
+</script>
 </body>
 </html>
