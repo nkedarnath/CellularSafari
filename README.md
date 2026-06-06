@@ -12,3 +12,4 @@ Cellular Safari takes students on a guided journey from basic brain anatomy to t
 3. Single-Cell Transcriptomics: An introduction to reading the genetic code of individual cells.
 4. Spatial Transcriptomics: Learning how scientists map genetic activity directly onto brain tissue images.
 5. Data analysis: How multidimensional data is analysed to reveal patterns in brain tissues and help discover new biology 
+
